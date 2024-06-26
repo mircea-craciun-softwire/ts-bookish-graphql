@@ -7,7 +7,8 @@ const schema = buildSchema(`
     }
 
     type Query {
-        books: [Book!]!
+        status: Int
+        getBooks: [Book!]!
     }
 `);
 

@@ -2,7 +2,8 @@ import { getAllBooks } from '../services/bookService';
 
 // TODO: implement functionality
 const resolvers = {
-    books: async () => {
+    status: () => 200,
+    getBooks: async () => {
         try {
             return await getAllBooks();
         } catch (error) {
