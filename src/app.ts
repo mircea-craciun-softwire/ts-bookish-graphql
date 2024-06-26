@@ -1,19 +1,21 @@
 import express from 'express';
-import 'dotenv/config';
+import schema from './schemas/schema';
+import resolvers from './resolvers/resolvers';
+import { graphqlHTTP } from 'express-graphql';
 
-import healthcheckRoutes from './controllers/healthcheckController';
-import bookRoutes from './controllers/bookController';
+const server = express();
 
-const port = process.env['PORT'] || 3000;
+const PORT = 3000;
 
-const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.listen(port, () => {
-    return console.log(`Express is listening at http://localhost:${port}`);
+server.use(
+    '/graphql',
+    graphqlHTTP({
+        schema: schema,
+        rootValue: resolvers,
+        graphiql: true,
+    }),
+);
+
+server.listen(PORT, () => {
+    console.log(`Server is running on localhost:${PORT}`);
 });
-
-/**
- * Primary app routes.
- */
-app.use('/healthcheck', healthcheckRoutes);
-app.use('/books', bookRoutes);
