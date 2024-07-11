@@ -24,29 +24,6 @@ export function connectToSQLServer() {
             console.log('Connection Failed');
             throw err;
         }
-        executeStatement(connection);
     });
     return connection;
-}
-
-function executeStatement(connection: Connection) {
-    const request = new Request('SELECT * FROM Books', (err, rowCount) => {
-        if (err) {
-            throw err;
-        }
-        console.log('DONE!');
-        connection.close();
-    });
-    // Emits a 'DoneInProc' event when completed.
-    request.on('row', (columns) => {
-        columns.forEach((column) => {
-            if (column.value === null) {
-                console.log('NULL');
-            } else {
-                console.log(column.value);
-            }
-        });
-    });
-    // In SQL Server 2000 you may need: connection.execSqlBatch(request);
-    connection.execSql(request);
 }
