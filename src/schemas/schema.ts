@@ -5,6 +5,7 @@ const schema = buildSchema(`
         id: ID!
         title: String!
         author: String!
+        isbn: String!
         nrCopies: Int!
     }
     
@@ -28,6 +29,10 @@ const schema = buildSchema(`
         status: Int
         getBooks: [Book!]!
         getUsers: [User!]!
+    }
+    
+    type Mutation {
+        createBook(title: String!, author: String!, isbn: String!, nrCopies: Int!): Book!
     }
 `);
 

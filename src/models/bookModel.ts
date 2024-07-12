@@ -1,5 +1,12 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
+export interface apiBook {
+    title: string;
+    author: string;
+    isbn: string;
+    nrCopies: number;
+}
+
 export let dbBook;
 
 export function defineBook(sequelize: Sequelize) {
@@ -16,6 +23,10 @@ export function defineBook(sequelize: Sequelize) {
                 allowNull: false,
             },
             author: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            isbn: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },

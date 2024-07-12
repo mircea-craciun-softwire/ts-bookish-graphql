@@ -1,6 +1,10 @@
-import { getAllBooks, getAllUsers } from '../services/bookService';
+import {
+    createNewBook,
+    getAllBooks,
+    getAllUsers,
+} from '../services/bookService';
+import { apiBook } from '../models/bookModel';
 
-// TODO: implement functionality
 const resolvers = {
     status: () => 200,
     getBooks: async () => {
@@ -15,6 +19,13 @@ const resolvers = {
             return await getAllUsers();
         } catch (error) {
             throw new Error(`Failed to fetch users: ${error.message}`);
+        }
+    },
+    createBook: async (bookData: apiBook) => {
+        try {
+            return await createNewBook(bookData);
+        } catch (error) {
+            throw new Error(`Failed to create book: ${error.message}`);
         }
     },
 };
