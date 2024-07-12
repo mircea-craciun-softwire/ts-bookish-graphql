@@ -29,6 +29,7 @@ const schema = buildSchema(`
         status: Int
         getBooks: [Book!]!
         getUsers: [User!]!
+        getUnreturnedBooksByUserId: String!
     }
     
     type Mutation {

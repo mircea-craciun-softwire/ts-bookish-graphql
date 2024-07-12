@@ -2,6 +2,7 @@ import {
     createNewBook,
     getAllBooks,
     getAllUsers,
+    getUsersUnreturnedBooks,
 } from '../services/bookService';
 import { apiBook } from '../models/bookModel';
 
@@ -19,6 +20,15 @@ const resolvers = {
             return await getAllUsers();
         } catch (error) {
             throw new Error(`Failed to fetch users: ${error.message}`);
+        }
+    },
+    getUnreturnedBooksByUserId: async (user: { userId: number }) => {
+        try {
+            return await getUsersUnreturnedBooks(user.userId);
+        } catch (error) {
+            throw new Error(
+                `Failed to fetch unreturned books: ${error.message}`,
+            );
         }
     },
     createBook: async (bookData: apiBook) => {
