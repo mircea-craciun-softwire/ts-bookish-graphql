@@ -1,33 +1,36 @@
-import { Request } from 'tedious';
-import { connection } from '../app';
-import { Book } from '../models/bookModel';
+import { ApiBook, dbBook } from '../models/bookModel';
+import { dbUser } from '../models/userModel';
+import { Model, QueryTypes, where } from 'sequelize';
+import { sequelize } from '../app';
+import { BorrowingHistory } from '../models/borrowingHistory';
 
-export const getAllBooks = async (): Promise<Book[]> => {
-    const books: Book[] = [];
-    const request = new Request('SELECT * FROM Books', (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log('DONE!');
-        connection.close();
-    });
-    return new Promise<Book[]>((resolve) => {
-        request.on('row', (columns) => {
-            const book: Book = { id: 0, title: '', author: '', nrCopies: 0 };
-            columns.forEach((column) => {
-                if (column.value !== null) {
-                    book[column.metadata.colName] = column.value;
-                }
-            });
-            console.log(book);
+export const getAllBooks = async (): Promise<Model[]> => {
+    return await dbBook.findAll();
+};
 
-            books.push(book);
+export const createNewBook = async (bookData: ApiBook): Promise<ApiBook> => {
+    return await dbBook.create(bookData);
+};
+
+export const getUsersUnreturnedBooks = async (userId: number) => {
+    console.log('Try getting the books');
+    try {
+        const result = await BorrowingHistory.findAll({
+            include: {
+                model: dbBook,
+            },
+            where: {
+                userId: userId,
+            },
         });
 
-        request.on('doneInProc', () => {
-            resolve(books);
-        });
+    } catch (error: any) {
+        console.error(error);
+    }
 
-        connection.execSql(request);
-    });
+    return [];
+};
+
+export const getAllUsers = async (): Promise<Model[]> => {
+    return await dbUser.findAll();
 };

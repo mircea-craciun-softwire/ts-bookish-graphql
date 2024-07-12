@@ -1,11 +1,11 @@
 import { buildSchema } from 'graphql';
 
-// TODO: implement functionality
 const schema = buildSchema(`
     type Book {
         id: ID!
         title: String!
         author: String!
+        isbn: String!
         nrCopies: Int!
     }
     
@@ -15,6 +15,11 @@ const schema = buildSchema(`
         email: String!
         password: String!
         token: String
+    }
+    
+    type BorrowedBook {
+        title: String
+        dueDate: String
     }
     
     type BorrowingHistory {
@@ -28,6 +33,12 @@ const schema = buildSchema(`
     type Query {
         status: Int
         getBooks: [Book!]!
+        getUsers: [User!]!
+        getUnreturnedBooksByUserId(userId: Int!): [BorrowedBook!]!
+    }
+    
+    type Mutation {
+        createBook(title: String!, author: String!, isbn: String!, nrCopies: Int!): Book!
     }
 `);
 
