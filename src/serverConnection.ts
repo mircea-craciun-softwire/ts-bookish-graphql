@@ -1,29 +1,12 @@
-import { Connection, Request } from 'tedious';
+import { Sequelize } from 'sequelize';
 
-const config: any = {
-    server: 'localhost',
-    authentication: {
-        type: 'default',
-        options: {
-            domain: 'ntlm',
-            userName: 'MirMeh',
-            password: 'AlexandriaTest!$$1',
-        },
-    },
-    options: {
+const dbPassword = 'AlexandriaTest!$$1';
+const dbUsername = 'MirMeh';
+
+export function initializeSequelize(): Sequelize {
+    return new Sequelize('Alexandria', dbUsername, dbPassword, {
+        dialect: 'mssql',
+        host: 'localhost',
         port: 1433,
-        database: 'Alexandria',
-        trustServerCertificate: true,
-    },
-};
-
-export function connectToSQLServer() {
-    const connection = new Connection(config);
-    connection.connect((err) => {
-        if (err) {
-            console.log('Connection Failed');
-            throw err;
-        }
     });
-    return connection;
 }

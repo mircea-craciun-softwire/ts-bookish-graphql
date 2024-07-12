@@ -1,6 +1,5 @@
 import { buildSchema } from 'graphql';
 
-// TODO: implement functionality
 const schema = buildSchema(`
     type Book {
         id: ID!
@@ -28,6 +27,7 @@ const schema = buildSchema(`
     type Query {
         status: Int
         getBooks: [Book!]!
+        getUsers: [User!]!
     }
 `);
 
