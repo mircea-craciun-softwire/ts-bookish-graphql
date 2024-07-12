@@ -2,10 +2,10 @@ import { DataTypes, Sequelize } from 'sequelize';
 import { dbBook } from './bookModel';
 import { dbUser } from './userModel';
 
-export let dbBorrowingHistory;
+export let BorrowingHistory;
 
 export function defineHistory(sequelize: Sequelize) {
-    dbBorrowingHistory = sequelize.define(
+    BorrowingHistory = sequelize.define(
         'BorrowingHistory',
         {
             id: {
@@ -37,8 +37,15 @@ export function defineHistory(sequelize: Sequelize) {
             },
         },
         {
-            freezeTableName: true,
-            timestamps: true,
+            //freezeTableName: true,
+            timestamps: false,
+            //tableName: 'BorrowingHistory',
         },
     );
+
+    dbBook.hasMany(BorrowingHistory, { foreignKey: 'bookId' });
+    BorrowingHistory.belongsTo(dbBook, { foreignKey: 'bookId' });
+
+    dbUser.hasMany(BorrowingHistory, { foreignKey: 'userId' });
+    BorrowingHistory.belongsTo(dbUser, { foreignKey: 'userId' });
 }

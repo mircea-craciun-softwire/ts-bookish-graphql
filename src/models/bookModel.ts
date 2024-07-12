@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
-export interface apiBook {
+export interface ApiBook {
     title: string;
     author: string;
     isbn: string;
@@ -37,6 +37,7 @@ export function defineBook(sequelize: Sequelize) {
         },
         {
             timestamps: false,
+            freezeTableName: true,
         },
     );
 }

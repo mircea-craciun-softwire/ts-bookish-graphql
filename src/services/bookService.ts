@@ -1,29 +1,34 @@
-import { apiBook, dbBook } from '../models/bookModel';
+import { ApiBook, dbBook } from '../models/bookModel';
 import { dbUser } from '../models/userModel';
-import { Model, QueryTypes } from 'sequelize';
+import { Model, QueryTypes, where } from 'sequelize';
 import { sequelize } from '../app';
+import { BorrowingHistory } from '../models/borrowingHistory';
 
 export const getAllBooks = async (): Promise<Model[]> => {
     return await dbBook.findAll();
 };
 
-export const createNewBook = async (bookData: apiBook): Promise<apiBook> => {
-    return await dbBook.create({
-        title: bookData.title,
-        author: bookData.author,
-        isbn: bookData.isbn,
-        nrCopies: bookData.nrCopies,
-    });
+export const createNewBook = async (bookData: ApiBook): Promise<ApiBook> => {
+    return await dbBook.create(bookData);
 };
 
 export const getUsersUnreturnedBooks = async (userId: number) => {
-    return await sequelize.query(
-        'SELECT title, dueDate FROM Alexandria.dbo.Books join Alexandria.dbo.BorrowingHistory ON Books.id = BorrowingHistory.bookId WHERE returnedDate is null AND userId = ' +
-            `${userId}`,
-        {
-            type: QueryTypes.SELECT,
-        },
-    );
+    console.log('Try getting the books');
+    try {
+        const result = await BorrowingHistory.findAll({
+            include: {
+                model: dbBook,
+            },
+            where: {
+                userId: userId,
+            },
+        });
+
+    } catch (error: any) {
+        console.error(error);
+    }
+
+    return [];
 };
 
 export const getAllUsers = async (): Promise<Model[]> => {

@@ -4,7 +4,7 @@ import {
     getAllUsers,
     getUsersUnreturnedBooks,
 } from '../services/bookService';
-import { apiBook } from '../models/bookModel';
+import { ApiBook } from '../models/bookModel';
 
 const resolvers = {
     status: () => 200,
@@ -31,7 +31,7 @@ const resolvers = {
             );
         }
     },
-    createBook: async (bookData: apiBook) => {
+    createBook: async (bookData: ApiBook) => {
         try {
             return await createNewBook(bookData);
         } catch (error) {
