@@ -3,6 +3,7 @@ create table Alexandria.dbo.Books (
 	id int identity(1,1) primary key,
 	title varchar(100) not null,
 	author varchar(50) not null,
+	isbn varchar(15) not null,
 	nrCopies int not null
 );
 create table Alexandria.dbo.Users (
