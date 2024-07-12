@@ -17,6 +17,11 @@ const schema = buildSchema(`
         token: String
     }
     
+    type BorrowedBook {
+        title: String
+        dueDate: String
+    }
+    
     type BorrowingHistory {
         id: ID!
         book: Book!
@@ -29,7 +34,7 @@ const schema = buildSchema(`
         status: Int
         getBooks: [Book!]!
         getUsers: [User!]!
-        getUnreturnedBooksByUserId: String!
+        getUnreturnedBooksByUserId(userId: Int!): [BorrowedBook!]!
     }
     
     type Mutation {

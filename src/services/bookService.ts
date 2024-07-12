@@ -18,7 +18,7 @@ export const createNewBook = async (bookData: apiBook): Promise<apiBook> => {
 
 export const getUsersUnreturnedBooks = async (userId: number) => {
     return await sequelize.query(
-        'SELECT title, dueDate FROM Books join BorrowingHistory ON Books.id = BorrowingHistory.bookId WHERE returnedDate is null AND userId = ' +
+        'SELECT title, dueDate FROM Alexandria.dbo.Books join Alexandria.dbo.BorrowingHistory ON Books.id = BorrowingHistory.bookId WHERE returnedDate is null AND userId = ' +
             `${userId}`,
         {
             type: QueryTypes.SELECT,
